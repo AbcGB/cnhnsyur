@@ -2,6 +2,8 @@ import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles.css';
 
+const TG_HANDLE = 'sanya_acupuncture_ru';
+
 const translations = {
   zh: {
     brand: 'Sanya TCM Care',
@@ -89,7 +91,7 @@ const translations = {
     },
     topBadge: 'Официальная больница в Санье · Русскоязычное сопровождение · Запись заранее',
     heroTitle: 'Иглоукалывание в Санье',
-    heroSubtitle: 'Русскоязычный вход в систему лечения традиционной китайской медицины для пациентов и туристов, прибывающих в Санью.',
+    heroSubtitle: 'Русскоязычный вход в систему лечения традиционной китайской медицины для пациентов и туристов, [...]',
     ctaPrimary: 'Записаться на прием',
     ctaSecondary: 'Написать в Telegram',
     trustTitle: 'Почему важна официальная больница?',
@@ -106,24 +108,23 @@ const translations = {
       'Определяем дальнейший план лечения',
     ],
     doctorTitle: 'Врач и сервис',
-    doctorText: 'Мы помогаем соединить пациента и больницу, чтобы перед визитом информация была понятной, а лечение — прозрачным и организованным.',
+    doctorText: 'Мы помогаем соединить пациента и больницу, чтобы перед визитом информация была понятной, а лечен�[...]',
     pricingTitle: 'Структура стоимости',
-    pricingText: 'Медицинские расходы зависят от официальной цены учреждения, а платформа обеспечивает консультации, запись и организацию сопровождения.',
+    pricingText: 'Медицинские расходы зависят от официальной цены учреждения, а платформа обеспечивает консульта[...'] ,
     pricingItems: [
       ['Медицинская стоимость', 'Выплачивается в соответствии с официальным прайсом учреждения.'],
       ['Сервис для пациентов', 'Планирование, запись, подготовка данных, напоминания.'],
-      ['Дополнительная поддержка', 'По запросу можно организовать более подробную помощь.',
-      ],
+      ['Дополнительная поддержка', 'По запросу можно организовать более подробную помощь.'],
     ],
     faqTitle: 'Частые вопросы',
     faq: [
       {
         q: 'Это частная клиника?',
-        a: 'Наша модель ближе к сервису для иностранных пациентов, а сам прием и лечение организуются в официальном медицинском учреждении.',
+        a: 'Наша модель ближе к сервису для иностранных пациентов, а сам прием и лечение организуются в официал�[...]',
       },
       {
         q: 'Нужен ли переводчик?',
-        a: 'Для первого визита обычно полезно русскоязычное сопровождение, чтобы лучше понять врача и рекомендации.',
+        a: 'Для первого визита обычно полезно русскоязычное сопровождение, чтобы лучше понять врача и рекоменд[...'] ,
       },
       {
         q: 'Нужно ли записываться заранее?',
@@ -147,7 +148,7 @@ const translations = {
       submit: 'Отправить',
     },
     contactTitle: 'Контакты и консультация',
-    contactText: 'Если вам нужно больше информации о процессе записи, подготовке к приему или стоимости, напишите нам в Telegram.',
+    contactText: 'Если вам нужно больше информации о процессе записи, подготовке к приему или стоимости, напишите �[...]',
     footer: 'Sanya TCM International Patient Service',
   },
   en: {
@@ -244,6 +245,15 @@ function App() {
     [text]
   );
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const msg = `Name: ${form.get('name') || ''}\nAge: ${form.get('age') || ''}\nGender: ${form.get('gender') || ''}\nIssue: ${form.get('issue') || ''}\nArea: ${form.get('area') || ''}\nDuration: ${form.get('time') || ''}\nNote: ${form.get('note') || ''}`;
+    const tgUrl = `https://t.me/${TG_HANDLE}?text=${encodeURIComponent(msg)}`;
+    // Open Telegram chat with prefilled message. This provides an immediate contact path for MVP.
+    window.open(tgUrl, '_blank');
+  }
+
   return (
     <>
       <header className="topbar">
@@ -278,7 +288,7 @@ function App() {
               <p>{text.heroSubtitle}</p>
               <div className="cta-row">
                 <a href="#contact" className="btn primary">{text.ctaPrimary}</a>
-                <a href="https://t.me/" target="_blank" rel="noreferrer" className="btn secondary">{text.ctaSecondary}</a>
+                <a href={`https://t.me/${TG_HANDLE}`} target="_blank" rel="noreferrer" className="btn secondary">{text.ctaSecondary}</a>
               </div>
             </div>
             <div className="hero-card">
@@ -399,32 +409,32 @@ function App() {
               </div>
             </div>
 
-            <form className="form-card">
+            <form className="form-card" onSubmit={handleSubmit}>
               <div className="field-row">
                 <label>{text.fields.name}</label>
-                <input type="text" placeholder="" />
+                <input name="name" type="text" placeholder="" />
               </div>
               <div className="field-row two">
                 <label>{text.fields.age}</label>
-                <input type="text" />
+                <input name="age" type="text" />
                 <label>{text.fields.gender}</label>
-                <input type="text" />
+                <input name="gender" type="text" />
               </div>
               <div className="field-row">
                 <label>{text.fields.issue}</label>
-                <input type="text" />
+                <input name="issue" type="text" />
               </div>
               <div className="field-row">
                 <label>{text.fields.area}</label>
-                <input type="text" />
+                <input name="area" type="text" />
               </div>
               <div className="field-row">
                 <label>{text.fields.time}</label>
-                <input type="text" />
+                <input name="time" type="text" />
               </div>
               <div className="field-row">
                 <label>{text.fields.note}</label>
-                <textarea rows="4" />
+                <textarea name="note" rows="4" />
               </div>
               <button type="submit" className="btn primary full">{text.fields.submit}</button>
             </form>
