@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://AbcGB.github.io/cnhnsyur/sitemap.xml
